@@ -1,3 +1,11 @@
+
+" Mouse and backspace
+set mouse=a " on OSX press ALT and click
+
+" Userful settings
+set history=700
+set undolevels=700
+
 " 定义快捷键的前缀，既<Leader>
 let mapleader=";"
 vnoremap <Leader>y "+y
@@ -12,7 +20,17 @@ nnoremap <Leader>hw <C-W>h
 nnoremap <Leader>kw <C-W>k
 nnoremap <Leader>jw <C-W>j
 nnoremap <Leader>pa %
+" easier moving between tabs
+map <Leader>n <esc>:tabprevious<CR>
+map <Leader>m <esc>:tabnext<CR>
+" map sort function to a key
+vnoremap <Leader>s :sort<CR>
 
+" easier moving of code blocks
+vnoremap < <gv " better indentatition
+vnoremap > >gv " better indentatition
+
+" 编码
 set encoding=utf-8
 set langmenu=zh_CN.UTF-8
 language message zh_CN.UTF-8
@@ -36,6 +54,7 @@ set laststatus=2
 set ruler
 " 开启行号显示
 set number
+set colorcolumn=80
 " 高亮显示当前行/列
 set cursorline
 set cursorcolumn
@@ -77,17 +96,24 @@ set foldmethod=syntax
 " 启动 vim 时关闭折叠代码
 set nofoldenable
 
+" 高亮显示搜索结果
+set hlsearch
 " 开启实时搜索功能
 set incsearch
 " 搜索时大小写不敏感
 set ignorecase
-" 高亮显示搜索结果
-set hlsearch
+set smartcase
+
+" Disable stupid backup and swap files - they trigger too many events
+" for file system watchers
+set nobackup
+set nowritebackup
+set noswapfile
+" set backupdir=$VIM_TEMP,.
+" set directory=$VIM_TEMP,.
+
 " vim 自身命令行模式智能补全
 set wildmenu
-set nobackup
-set backupdir=$VIM_TEMP,.
-set directory=$VIM_TEMP,.
 
 " 定义快捷键到行首和航尾
 "nmap lb 0
@@ -272,6 +298,10 @@ Plugin 'walm/jshint.vim'
 Plugin 'derekwyatt/vim-scala'
 Plugin 'ktvoelker/sbt-vim'
 Plugin 'kien/ctrlp.vim'
+let g:ctrlp_max_height = 30
+set wildignore+=*.pyc
+set wildignore+=*build/*
+
 Plugin 'vim-scripts/JavaImp.vim--Lee'
 let g:JavaImpPaths = $JAVA_HOME . "/src"
 let g:JavaImpDataDir = $HOME . "/.vim/JavaImp"
@@ -282,6 +312,36 @@ let g:JavaImpSortPkgSep = 1
 Plugin 'rizzatti/dash.vim'
 Plugin 'matchit.zip'
 Plugin 'scrooloose/nerdcommenter'
+Plugin 'klen/python-mode'
+" map <Leader>g :call RopeGotoDefinition()<CR>
+let repevim_enable_shortcuts = 1
+let g:pymode_rope_goto_def_newwin = "vnew"
+let g:pymode_rope_extended_complete = 1
+let g:pymode_rope_completion = 1
+let g:pymode_rope_complete_on_dot = 1
+let g:pymode_rope_completion_bind = '<C-c>'
+let g:pymode_breakpoint = 0
+let g:pymode_syntax = 1
+let g:pymode_syntax_builtin_objs = 0
+let g:pymode_syntax_builtin_funcs = 0
+map <Leader>b Oimport ipdb; ipdb.set_trace() #BREAKPOINT<C-c>
+" Better navigating through omnicimplete option list
+" See http://stackoverflow.com/questions/2170023/how-to-map-keys-for-popup-menu-in-vim
+set completeopt=longest,menuone
+function! OmniPopup(action)
+    if pumvisible()
+        if a:action == 'j'
+            return "\<C-N>"
+        elseif a:action == 'k'
+            return "\<C-P>"
+        endif
+    return a:action
+endfunction
+inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
+inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
+
+Plugin 'Efficient-python-folding'
+set nofoldenable
 
 " 成对生成(),{},[]
 "Plugin 'Raimondi/delimitMate'
