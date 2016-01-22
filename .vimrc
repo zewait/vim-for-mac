@@ -281,17 +281,17 @@ let NERDTreeAutoDeleteBuffer=1
 
 " 多文档编辑插件
 Plugin 'fholgado/minibufexpl.vim'
+" 显示/隐藏 MiniBufExplorer 窗口
+map <Leader>bl :MBEToggle<cr>
+" buffer 切换快捷键
+" map <C-Tab> :MBEbn<cr>
+" map <C-S-Tab> :MBEbp<cr>
+map <Leader>bn :MBEbn<cr>
+map <Leader>bp :MBEbp<cr>
 " nodejs
 Plugin 'moll/vim-node'
 " 展示http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
 Plugin 'godlygeek/tabular'
-" 显示/隐藏 MiniBufExplorer 窗口
-map <Leader>bl :MBEToggle<cr>
- " buffer 切换快捷键
- "map <C-Tab> :MBEbn<cr>
- "map <C-S-Tab> :MBEbp<cr>
- map <Leader>bn :MBEbn<cr>
- map <Leader>bp :MBEbp<cr>
 
 Plugin 'mattn/emmet-vim'
 Plugin 'walm/jshint.vim'
@@ -342,6 +342,8 @@ inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
 
 Plugin 'Efficient-python-folding'
 set nofoldenable
+
+Plugin 'tpope/vim-fugitive'
 
 " 成对生成(),{},[]
 "Plugin 'Raimondi/delimitMate'
