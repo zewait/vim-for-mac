@@ -303,11 +303,14 @@ set wildignore+=*.pyc
 set wildignore+=*build/*
 
 Plugin 'vim-scripts/JavaImp.vim--Lee'
-let g:JavaImpPaths = $JAVA_HOME . "/src"
+let g:JavaImpPaths = $JAVA_HOME . "/src," .
+\ $HOME . "/Applications/java/play/activator-dist-1.3.5/repository," .
+\ $HOME . "/Documents/workspace/java/ee/ETaoInterface/app"
+                
 let g:JavaImpDataDir = $HOME . "/.vim/JavaImp"
-let g:JavaImpSortJavaFirst = 0
-let g:JavaImpSortBin = "sort"
-let g:JavaImpSortPkgSep = 1
+"let g:JavaImpSortJavaFirst = 0
+"let g:JavaImpSortBin = "sort"
+"let g:JavaImpSortPkgSep = 1
 
 Plugin 'rizzatti/dash.vim'
 Plugin 'matchit.zip'
@@ -344,6 +347,16 @@ Plugin 'Efficient-python-folding'
 set nofoldenable
 
 Plugin 'tpope/vim-fugitive'
+
+Plugin 'java_getset.vim'
+
+Plugin 'taglist.vim'
+" 不同时显示多个文件的tag,只显示当前文件的
+let Tlist_Show_One_File=1 
+" 如果taglist窗口是最后一个窗口,则退出vim
+let Tlist_Exit_OnlyWindow=1
+" 在右侧出口中显示taglist窗口
+let Tlist_Use_Right_Window=1
 
 " 成对生成(),{},[]
 "Plugin 'Raimondi/delimitMate'
