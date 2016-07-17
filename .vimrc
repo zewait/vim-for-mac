@@ -1,30 +1,55 @@
 
 " Mouse and backspace
 set mouse=a " on OSX press ALT and click
+" 让配置变更立即生效
+autocmd BufWritePost $MYVIMRC source $MYVIMRC
+
 
 " Userful settings
 set history=700
 set undolevels=700
 
+" ==================
+" =    快捷键区    =
+" ==================
 " 定义快捷键的前缀，既<Leader>
 let mapleader=";"
-vnoremap <Leader>y "+y
-nmap <Leader>p "+p
-nmap <Leader>q :q<CR>
-nmap <Leader>w :w<CR>
-nmap <Leader>WQ :wa<CR>:q<CR>
-nmap <Leader>Q :qa!<CR>
-nnoremap nw <C-W><C-W>
-nnoremap <Leader>lw <C-W>l
-nnoremap <Leader>hw <C-W>h
-nnoremap <Leader>kw <C-W>k
-nnoremap <Leader>jw <C-W>j
-nnoremap <Leader>pa %
-" easier moving between tabs
-map <Leader>n <esc>:tabprevious<CR>
-map <Leader>m <esc>:tabnext<CR>
 " map sort function to a key
 vnoremap <Leader>s :sort<CR>
+" 定义快捷键到行首和航尾
+"nmap lb 0
+"nmap ln $
+" 设置折行功能
+noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
+noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
+" 设置快捷键将选中文本块复制至系统剪贴板
+vnoremap <Leader>y "+y
+" 设置快捷键将系统剪贴板内容粘贴至vim
+nmap <Leader>p "+p
+" 定义快捷键关闭当前分割窗口
+nmap <Leader>q :q<CR>
+" 定义快捷键保存当前窗口内容
+nmap <Leader>w :w<CR>
+" 定义快捷键保存所有窗口内容并推出 vim
+nmap <Leader>WQ :wa<CR>:q<CR>
+" 不做任何保存，直接退出vim
+nmap <Leader>Q :qa!<CR>
+" 依次遍历子窗口
+nnoremap nw <C-W><C-W>
+" 跳转至右方窗口
+nnoremap <Leader>lw <C-W>l
+" 跳转至左方窗口
+nnoremap <Leader>hw <C-W>h
+" 跳转至上方窗口
+nnoremap <Leader>jw <C-W>j
+" 跳转至下方窗口
+nnoremap <Leader>kw <C-W>k
+" 定义快捷键在结对符之间跳转，助记pair
+nmap <Leader>pa %
+" 正向遍历同名标签
+nmap <Leader>tn :tnext<CR>
+" 反向遍历同名标签
+nmap <Leader>tp :tprevious<CR>
 
 " easier moving of code blocks
 vnoremap < <gv " better indentatition
@@ -54,6 +79,13 @@ set laststatus=2
 set ruler
 " 开启行号显示
 set number
+" 开启相对行号
+set relativenumber
+" 输入切换到绝对行号
+autocmd InsertEnter * :set number
+" 输入离开切换到相对行号
+autocmd InsertLeave * :set relativenumber
+
 set colorcolumn=80
 " 高亮显示当前行/列
 set cursorline
@@ -115,37 +147,6 @@ set noswapfile
 " vim 自身命令行模式智能补全
 set wildmenu
 
-" 定义快捷键到行首和航尾
-"nmap lb 0
-"nmap ln $
-" 设置快捷键将选中文本块复制至系统剪贴板
-vnoremap <Leader>y "+y
-" 设置快捷键将系统剪贴板内容粘贴至vim
-nmap <Leader>p "+p
-" 定义快捷键关闭当前分割窗口
-nmap <Leader>q :q<CR>
-" 定义快捷键保存当前窗口内容
-nmap <Leader>w :w<CR>
-" 定义快捷键保存所有窗口内容并推出 vim
-nmap <Leader>WQ :wa<CR>:q<CR>
-" 不做任何保存，直接退出vim
-nmap <Leader>Q :qa!<CR>
-" 依次遍历子窗口
-nnoremap nw <C-W><C-W>
-" 跳转至右方窗口
-nnoremap <Leader>lw <C-W>l
-" 跳转至左方窗口
-nnoremap <Leader>hw <C-W>h
-" 跳转至上方窗口
-nnoremap <Leader>jw <C-W>j
-" 跳转至下方窗口
-nnoremap <Leader>kw <C-W>k
-" 定义快捷键在结对符之间跳转，助记pair
-nmap <Leader>pa %
-" 正向遍历同名标签
-nmap <Leader>tn :tnext<CR>
-" 反向遍历同名标签
-nmap <Leader>tp :tprevious<CR>
 
 
 
@@ -299,13 +300,14 @@ Plugin 'derekwyatt/vim-scala'
 Plugin 'ktvoelker/sbt-vim'
 Plugin 'kien/ctrlp.vim'
 let g:ctrlp_max_height = 30
-set wildignore+=*.pyc
-set wildignore+=*build/*
+set wildignore+=*.pyc,*.so,*.swp,*.zip
+set wildignore+=*build/*,*/tmp/*,*/node_modules/*,*/target/*,*/dist/*
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 
 Plugin 'vim-scripts/JavaImp.vim--Lee'
 let g:JavaImpPaths = $JAVA_HOME . "/src," .
 \ $HOME . "/Applications/java/play/activator-dist-1.3.5/repository," .
-\ $HOME . "/Documents/workspace/java/ee/ETaoInterface/app"
+\ "./app"
                 
 let g:JavaImpDataDir = $HOME . "/.vim/JavaImp"
 "let g:JavaImpSortJavaFirst = 0
@@ -358,8 +360,20 @@ let Tlist_Exit_OnlyWindow=1
 " 在右侧出口中显示taglist窗口
 let Tlist_Use_Right_Window=1
 
+Plugin 'msanders/snipmate.vim'
+Plugin 'BufOnly.vim'
+
 " 成对生成(),{},[]
 "Plugin 'Raimondi/delimitMate'
+
+" 令 GVim 专属的配色方案应用于 Vim 终端
+Plugin 'CSApprox'
+set t_Co=256
+
+" 参数折叠
+Plugin 'FooSoft/vim-argwrap'
+nnoremap <silent> <leader>a :ArgWrap<CR>
+
 call vundle#end()
 " 根据侦测到的不同类型加载对应的插件
 filetype plugin on
@@ -367,3 +381,14 @@ filetype plugin on
 " 配色方案
 set background=dark
 colorscheme molokai
+
+
+" functions
+function! NumberToggle()
+    if(&relativenumber == 1)
+        set number
+    else
+        set relativenumber
+    endif
+endfunc
+nnoremap <C-n> :call NumberToggle()<cr>
