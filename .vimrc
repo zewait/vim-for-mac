@@ -213,7 +213,7 @@ let g:SignatureMap = {
     \ }
 
 " 自动生成标签并引入插件
-Plugin 'file:///Users/shifanhuang/.vim/bundle/indexer'
+Plugin 'file:///~/.vim/bundle/indexer'
 " indexer依赖的两个插件
 Plugin 'DfrankUtil'
 Plugin 'vimprj'
