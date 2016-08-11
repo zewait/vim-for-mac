@@ -297,7 +297,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'mattn/emmet-vim'
 Plugin 'walm/jshint.vim'
 Plugin 'derekwyatt/vim-scala'
-Plugin 'ktvoelker/sbt-vim'
+" Plugin 'ktvoelker/sbt-vim'
 Plugin 'kien/ctrlp.vim'
 let g:ctrlp_max_height = 30
 set wildignore+=*.pyc,*.so,*.swp,*.zip
@@ -306,7 +306,7 @@ let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 
 Plugin 'vim-scripts/JavaImp.vim--Lee'
 let g:JavaImpPaths = $JAVA_HOME . "/src," .
-\ $HOME . "/Applications/java/play/activator-dist-1.3.5/repository," .
+\ $ACTIVATOR_REPOSITORY . "," .
 \ "./app"
                 
 let g:JavaImpDataDir = $HOME . "/.vim/JavaImp"
