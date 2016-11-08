@@ -22,6 +22,7 @@ vnoremap <Leader>s :sort<CR>
 " 设置折行功能
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
+set clipboard=unnamedplus
 " 设置快捷键将选中文本块复制至系统剪贴板
 vnoremap <Leader>y "+y
 " 设置快捷键将系统剪贴板内容粘贴至vim
@@ -45,7 +46,7 @@ nnoremap <Leader>jw <C-W>j
 " 跳转至下方窗口
 nnoremap <Leader>kw <C-W>k
 " 定义快捷键在结对符之间跳转，助记pair
-nmap <Leader>pa %
+" nmap <Leader>pa %
 " 正向遍历同名标签
 nmap <Leader>tn :tnext<CR>
 " 反向遍历同名标签
@@ -222,9 +223,17 @@ Plugin 'vimprj'
 " 默认 --fields=+iaS 不满足 YCM 要求，需改为 --fields=+iaSl
 let g:indexer_ctagsCommondLineOptions="--c++-kinds=+c+d+e+f+g+l+m+n+p+s+t+u+v+x --fields=+iaSl --extra=+q"
 
+"Plugin 'taglist.vim'
+" 不同时显示多个文件的tag,只显示当前文件的
+"let Tlist_Show_One_File=1 
+" 如果taglist窗口是最后一个窗口,则退出vim
+"let Tlist_Exit_OnlyWindow=1
+" 在右侧出口中显示taglist窗口
+"let Tlist_Use_Right_Window=1
+
 Plugin 'majutsushi/tagbar'
 " 设置 tagbar 子窗口的位置出现在主编辑区的左边
-let tagbar_left=1
+let tagbar_right=1
 " 设置显示/隐藏标签列表子窗口的快捷键。速记：tag list
 nnoremap <Leader>tl :TagbarToggle<CR>
 " 设置标签子窗口的宽度
@@ -285,14 +294,13 @@ Plugin 'fholgado/minibufexpl.vim'
 " 显示/隐藏 MiniBufExplorer 窗口
 map <Leader>bl :MBEToggle<cr>
 " buffer 切换快捷键
-" map <C-Tab> :MBEbn<cr>
-" map <C-S-Tab> :MBEbp<cr>
+map <C-Tab> :MBEbn<cr>
+map <C-S-Tab> :MBEbp<cr>
 map <Leader>bn :MBEbn<cr>
 map <Leader>bp :MBEbp<cr>
 " nodejs
 Plugin 'moll/vim-node'
-" 展示http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
-Plugin 'godlygeek/tabular'
+
 
 Plugin 'mattn/emmet-vim'
 Plugin 'walm/jshint.vim'
@@ -352,15 +360,20 @@ Plugin 'tpope/vim-fugitive'
 
 Plugin 'java_getset.vim'
 
-Plugin 'taglist.vim'
-" 不同时显示多个文件的tag,只显示当前文件的
-let Tlist_Show_One_File=1 
-" 如果taglist窗口是最后一个窗口,则退出vim
-let Tlist_Exit_OnlyWindow=1
-" 在右侧出口中显示taglist窗口
-let Tlist_Use_Right_Window=1
+" Track the engine.
+Plugin 'SirVer/ultisnips'
 
-Plugin 'msanders/snipmate.vim'
+" Snippets are separated from the engine. Add this if you want them:
+Plugin 'honza/vim-snippets'
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
 Plugin 'BufOnly.vim'
 
 " 成对生成(),{},[]
@@ -373,6 +386,28 @@ set t_Co=256
 " 参数折叠
 Plugin 'FooSoft/vim-argwrap'
 nnoremap <silent> <leader>a :ArgWrap<CR>
+
+Plugin 'Tabular'
+if exists(":Tabularize")
+    nmap <Leader>a= :Tabularize /=<CR>
+    vmap <Leader>a= :Tabularize /=<CR>
+    nmap <Leader>a: :Tabularize /:\zs<CR>
+    vmap <Leader>a: :Tabularize /:\zs<CR>
+endif
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+
+function! s:align()
+    let p = '^\s*|\s.*\s|\s*$'
+    if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+        let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+        let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+        Tabularize/|/l1
+        normal! 0
+        call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+    endif
+endfunction
+
+Plugin 'xml_completion'
 
 call vundle#end()
 " 根据侦测到的不同类型加载对应的插件
