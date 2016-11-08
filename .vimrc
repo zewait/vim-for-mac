@@ -112,13 +112,7 @@ set shiftwidth=4
 " 让 vim 把连续数量的空格视为一个制表符
 set softtabstop=4
 " html/rb/css/js/coffeescript/jade/json files, 2spaces
-autocmd Filetype html setlocal tabstop=2 shiftwidth=2 softtabstop=2
-autocmd Filetype css setlocal tabstop=2 shiftwidth=2 softtabstop=2
-autocmd Filetype ruby setlocal tabstop=2 shiftwidth=2 softtabstop=2
-autocmd Filetype javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2
-autocmd Filetype coffeescript setlocal tabstop=2 shiftwidth=2 softtabstop=2
-autocmd Filetype jade setlocal tabstop=2 shiftwidth=2 softtabstop=2
-autocmd Filetype json setlocal tabstop=2 shiftwidth=2 softtabstop=2
+autocmd Filetype html,css,ruby,javascript,coffeescript,jade,json setlocal tabstop=2 shiftwidth=2 softtabstop=2
 autocmd Filetype java set tags=$JAVA_HOME/tags,./tags,tags;
 
 
@@ -298,6 +292,14 @@ map <C-Tab> :MBEbn<cr>
 map <C-S-Tab> :MBEbp<cr>
 map <Leader>bn :MBEbn<cr>
 map <Leader>bp :MBEbp<cr>
+
+" quickfix 
+nmap <leader>cn :cn<cr>
+nmap <leader>cp :cp<cr>
+nmap <leader>cw :cw 10<cr>
+
+" c,cpp配置
+autocmd FileType c,cpp map <buffer> <leader><space> :w<cr>:make<cr>
 " nodejs
 Plugin 'moll/vim-node'
 
