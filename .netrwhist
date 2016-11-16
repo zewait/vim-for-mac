@@ -1,6 +1,4 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =4
-let g:netrw_dirhist_1='/Users/shifanhuang/Documents/workspace/cpp/unix_sock'
-let g:netrw_dirhist_2='/Users/shifanhuang/Documents/workspace/java/ee/EPayInterface/test'
-let g:netrw_dirhist_3='/Users/shifanhuang/.tmux'
-let g:netrw_dirhist_4='/Users/shifanhuang/Documents/workspace/js/react/react-demos/.git'
+let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_1='/Users/shifanhuang/.vim/bundle/a.vim'
+let g:netrw_dirhist_2='/Users/shifanhuang/Documents/workspace/js/react-native/AwesomeProject/android'

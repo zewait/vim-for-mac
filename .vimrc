@@ -309,7 +309,7 @@ let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 Plugin 'vim-scripts/JavaImp.vim--Lee'
 let g:JavaImpPaths = $JAVA_HOME . "/src," .
 \ $HOME . "/Applications/java/play/activator-dist-1.3.5/repository," .
-\ "./app"
+\ "./app," . "./src"
                 
 let g:JavaImpDataDir = $HOME . "/.vim/JavaImp"
 "let g:JavaImpSortJavaFirst = 0
