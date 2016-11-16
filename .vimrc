@@ -327,36 +327,6 @@ let g:JavaImpDataDir = $HOME . "/.vim/JavaImp"
 Plugin 'rizzatti/dash.vim'
 Plugin 'matchit.zip'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'klen/python-mode'
-" map <Leader>g :call RopeGotoDefinition()<CR>
-let repevim_enable_shortcuts = 1
-let g:pymode_rope_goto_def_newwin = "vnew"
-let g:pymode_rope_extended_complete = 1
-let g:pymode_rope_completion = 1
-let g:pymode_rope_complete_on_dot = 1
-let g:pymode_rope_completion_bind = '<C-c>'
-let g:pymode_breakpoint = 0
-let g:pymode_syntax = 1
-let g:pymode_syntax_builtin_objs = 0
-let g:pymode_syntax_builtin_funcs = 0
-map <Leader>b Oimport ipdb; ipdb.set_trace() #BREAKPOINT<C-c>
-" Better navigating through omnicimplete option list
-" See http://stackoverflow.com/questions/2170023/how-to-map-keys-for-popup-menu-in-vim
-set completeopt=longest,menuone
-function! OmniPopup(action)
-    if pumvisible()
-        if a:action == 'j'
-            return "\<C-N>"
-        elseif a:action == 'k'
-            return "\<C-P>"
-        endif
-    return a:action
-endfunction
-inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
-inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
-
-Plugin 'Efficient-python-folding'
-set nofoldenable
 
 Plugin 'tpope/vim-fugitive'
 
@@ -364,17 +334,10 @@ Plugin 'java_getset.vim'
 
 " Track the engine.
 Plugin 'SirVer/ultisnips'
-
 " Snippets are separated from the engine. Add this if you want them:
 Plugin 'honza/vim-snippets'
+" let g:UltiSnipsUsePythonVersion = 3
 
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
 
 Plugin 'BufOnly.vim'
 
@@ -409,7 +372,6 @@ function! s:align()
     endif
 endfunction
 
-Plugin 'xml_completion'
 
 call vundle#end()
 " 根据侦测到的不同类型加载对应的插件
