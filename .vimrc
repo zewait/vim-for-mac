@@ -22,7 +22,7 @@ vnoremap <Leader>s :sort<CR>
 " 设置折行功能
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
-set clipboard=unnamedplus
+"set clipboard=unnamedplus
 " 设置快捷键将选中文本块复制至系统剪贴板
 vnoremap <Leader>y "+y
 " 设置快捷键将系统剪贴板内容粘贴至vim
@@ -100,7 +100,7 @@ filetype plugin on
 " 允许vim为不同类型的文件定义不同的缩进格式
 filetype indent on
 " 三种缩进模式cindent, smartindent, autoindent
-set autoindent
+set smartindent
 
 " 设置文件缩进
 " 将制表符扩展为空格
@@ -143,14 +143,12 @@ set noswapfile
 set wildmenu
 
 
-
-
-
 " 设置Vundle
 " be iMproved, required
 set nocompatible
 " 关闭文件类型侦测
 filetype off
+set rtp+=~/Library/Python/2.7/lib/python/site-packages/powerline/bindings/vim
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -159,7 +157,8 @@ Plugin 'VundleVim/Vundle.vim'
 " 主题风格插件
 Plugin 'tomasr/molokai'
 " 状态栏插件
-Plugin 'Lokaltog/vim-powerline'
+"Plugin 'Lokaltog/vim-powerline'
+"let g:Powerline_symbols = 'fancy'
 " C++11/14 STL语法高亮插件
 Plugin 'Mizuchi/STL-Syntax'
 
@@ -316,13 +315,8 @@ let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 
 Plugin 'vim-scripts/JavaImp.vim--Lee'
 let g:JavaImpPaths = $JAVA_HOME . "/src," .
-<<<<<<< HEAD
-\ $HOME . "/Applications/java/play/activator-dist-1.3.5/repository," .
-\ "./app," . "./src"
-=======
-\ $ACTIVATOR_REPOSITORY . "," .
-\ "./app"
->>>>>>> ff23b5365d0a3026d964dc041146ccc06d8795e2
+\ "./app," . "./src" .
+\ $ACTIVATOR_REPOSITORY
                 
 let g:JavaImpDataDir = $HOME . "/.vim/JavaImp"
 "let g:JavaImpSortJavaFirst = 0
@@ -396,3 +390,4 @@ function! NumberToggle()
     endif
 endfunc
 nnoremap <C-n> :call NumberToggle()<cr>
+
