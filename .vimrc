@@ -9,6 +9,9 @@ autocmd BufWritePost $MYVIMRC source $MYVIMRC
 set history=700
 set undolevels=700
 
+set nocompatible
+set backspace=2
+
 " ==================
 " =    快捷键区    =
 " ==================
