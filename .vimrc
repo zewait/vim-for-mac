@@ -1,22 +1,126 @@
-
+" Base Settings --------------- {{{ 
 " Mouse and backspace
 set mouse=a " on OSX press ALT and click
-" 让配置变更立即生效
-autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
+" 缩紧不整齐时候，输入>>可以纠正，
+" 而不是在原来基础上再缩紧 
+set shiftround
 
 " Userful settings
 set history=700
 set undolevels=700
 
-set nocompatible
 set backspace=2
 
+
+" 编码
+set encoding=utf-8
+set langmenu=zh_CN.UTF-8
+language message zh_CN.UTF-8
+set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
+
+" 开启语法高亮
+syntax on
+" 禁止光标闪烁
+"set gcr=a:block-blinkon0
+" 禁止显示滚动条
+set guioptions-=l
+set guioptions-=L
+set guioptions-=r
+set guioptions-=L
+" 禁止显示菜单和工具栏
+set guioptions-=m
+set guioptions-=T
+" 显示光标当前位置
+set ruler
+" 开启行号显示
+set number
+" 开启相对行号
+set relativenumber
+
+set colorcolumn=80
+" 高亮显示当前行/列
+set cursorline
+set cursorcolumn
+" 禁止折行
+"set nowrap
+
+" 打开文件类型检测功能
+filetype on
+" 允许vim加载文件类型插件
+filetype plugin on
+" 允许vim为不同类型的文件定义不同的缩进格式
+filetype indent on
+" 三种缩进模式cindent, smartindent, autoindent
+set smartindent
+
+" 设置文件缩进
+" 将制表符扩展为空格
+set expandtab
+" 设置编辑时制表符占用空格数
+set tabstop=4
+" 设置格式化时制表符占用空格时
+set shiftwidth=4
+" 让 vim 把连续数量的空格视为一个制表符
+set softtabstop=4
+" html/rb/css/js/coffeescript/jade/json files, 2spaces
+
+
+
+" 基于缩进或者语法进行代码折叠
+" set foldmethod=indent
+set foldmethod=syntax
+" 启动 vim 时关闭折叠代码
+set nofoldenable
+
+" 高亮显示搜索结果
+set hlsearch
+" 开启实时搜索功能
+set incsearch
+" 搜索时大小写不敏感
+set ignorecase
+set smartcase
+
+" Disable stupid backup and swap files - they trigger too many events
+" for file system watchers
+set nobackup
+set nowritebackup
+set noswapfile
+" set backupdir=$VIM_TEMP,.
+" set directory=$VIM_TEMP,.
+
+" 总是显示状态栏
+set laststatus=2
+set t_Co=256
+
+" vim 自身命令行模式智能补全
+set wildmenu
+
+" }}}
+
+" Mappings ------------- {{{
 " ==================
 " =    快捷键区    =
 " ==================
 " 定义快捷键的前缀，既<Leader>
-let mapleader=";"
+let mapleader=" "
+let maplocalleader=","
+" map sort function to a key
+vnoremap <Leader>s :sort<CR>
+" 水平打开~/.vimrc, 按ZZ保存并关闭
+nnoremap <Leader>ev :split $MYVIMRC<cr>
+" reload ~/.vimrc
+nnoremap <Leader>sv :source $MYVIMRC<cr>
+" abbreviations email
+iabbrev @@ here.wait.go@gmail.com
+" word -> \"word\"
+nnoremap <Leader>" viw<esc>a"<esc>hbi"<esc>lel
+" word -> 'word'
+nnoremap <Leader>' viw<esc>a'<esc>hbi'<esc>lel
+" in visual mode, and selected, example abcd<selected>1234</selected>efg -> abcd\"1234\"efg
+" another comment 
+" vnoremap <Leader>" c""<esc>v
+vnoremap <Leader>" <esc>`>a"<esc>`<i"<esc>
 " map sort function to a key
 vnoremap <Leader>s :sort<CR>
 " 定义快捷键到行首和航尾
@@ -59,99 +163,44 @@ nmap <Leader>tp :tprevious<CR>
 vnoremap < <gv " better indentatition
 vnoremap > >gv " better indentatition
 
-" 编码
-set encoding=utf-8
-set langmenu=zh_CN.UTF-8
-language message zh_CN.UTF-8
-set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 
-" 开启语法高亮
-syntax on
-" 禁止光标闪烁
-"set gcr=a:block-blinkon0
-" 禁止显示滚动条
-set guioptions-=l
-set guioptions-=L
-set guioptions-=r
-set guioptions-=L
-" 禁止显示菜单和工具栏
-set guioptions-=m
-set guioptions-=T
-" 总是显示状态栏
-set laststatus=2
-" 显示光标当前位置
-set ruler
-" 开启行号显示
-set number
-" 开启相对行号
-set relativenumber
-" 输入切换到绝对行号
-autocmd InsertEnter * :set number
-" 输入离开切换到相对行号
-autocmd InsertLeave * :set relativenumber
+" Operator-Pending映射
+onoremap p i(
+onoremap in( :<c-u>normal! f(vi(<cr>
+onoremap il( :<c-u>normal! F)vi(<cr>
+" }}}
 
-set colorcolumn=80
-" 高亮显示当前行/列
-set cursorline
-set cursorcolumn
-" 禁止折行
-"set nowrap
-" 打开文件类型检测功能
-filetype on
-" 允许vim加载文件类型插件
-filetype plugin on
-" 允许vim为不同类型的文件定义不同的缩进格式
-filetype indent on
-" 三种缩进模式cindent, smartindent, autoindent
-set smartindent
+" FileType-specific settings ----------- {{{
+augroup init
+    autocmd!
+    " 让配置变更立即生效
+    autocmd BufWritePost $MYVIMRC source $MYVIMRC
+    " 输入切换到绝对行号
+    "autocmd InsertEnter * :set number
+    " 输入离开切换到相对行号
+    "autocmd InsertLeave * :set relativenumber
+    autocmd Filetype html,css,ruby,javascript,coffeescript,jade,json setlocal tabstop=2 shiftwidth=2 softtabstop=2
+    autocmd Filetype java set tags=$JAVA_HOME/tags,./tags,tags;
+    " c,cpp配置
+    autocmd FileType c,cpp map <buffer> <leader><space> :w<cr>:make<cr>
+augroup END
 
-" 设置文件缩进
-" 将制表符扩展为空格
-set expandtab
-" 设置编辑时制表符占用空格数
-set tabstop=4
-" 设置格式化时制表符占用空格时
-set shiftwidth=4
-" 让 vim 把连续数量的空格视为一个制表符
-set softtabstop=4
-" html/rb/css/js/coffeescript/jade/json files, 2spaces
-autocmd Filetype html,css,ruby,javascript,coffeescript,jade,json setlocal tabstop=2 shiftwidth=2 softtabstop=2
-autocmd Filetype java set tags=$JAVA_HOME/tags,./tags,tags;
+" Vimscript file settings ----------------- {{{
+augroup filetype_vim
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker
+augroup END
+" }}}
+
+"}}}
 
 
-
-" 基于缩进或者语法进行代码折叠
-" set foldmethod=indent
-set foldmethod=syntax
-" 启动 vim 时关闭折叠代码
-set nofoldenable
-
-" 高亮显示搜索结果
-set hlsearch
-" 开启实时搜索功能
-set incsearch
-" 搜索时大小写不敏感
-set ignorecase
-set smartcase
-
-" Disable stupid backup and swap files - they trigger too many events
-" for file system watchers
-set nobackup
-set nowritebackup
-set noswapfile
-" set backupdir=$VIM_TEMP,.
-" set directory=$VIM_TEMP,.
-
-" vim 自身命令行模式智能补全
-set wildmenu
-
-
+" Vundle Plugin Settings ------------- {{{
 " 设置Vundle
 " be iMproved, required
 set nocompatible
 " 关闭文件类型侦测
 filetype off
-set rtp+=~/Library/Python/2.7/lib/python/site-packages/powerline/bindings/vim
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -210,7 +259,7 @@ let g:SignatureMap = {
     \ }
 
 " 自动生成标签并引入插件
-Plugin 'file:///~/.vim/bundle/indexer'
+" Plugin 'file:///~/.vim/bundle/indexer'
 " indexer依赖的两个插件
 Plugin 'DfrankUtil'
 Plugin 'vimprj'
@@ -273,7 +322,7 @@ let g:tagbar_type_cpp = {
 " 工程文件浏览插件
 Plugin 'scrooloose/nerdtree'
 " 使用 NERDTree 插件查看工程文件。设置快捷键，速记：file list
-nmap <Leader>fl :NERDTreeToggle<CR>
+nmap <Leader>n :NERDTreeToggle<CR>
 " 设置NERDTree子窗口宽度
 let NERDTreeWinSize=32
 " 设置NERDTree子窗口位置
@@ -300,8 +349,6 @@ nmap <leader>cn :cn<cr>
 nmap <leader>cp :cp<cr>
 nmap <leader>cw :cw 10<cr>
 
-" c,cpp配置
-autocmd FileType c,cpp map <buffer> <leader><space> :w<cr>:make<cr>
 " nodejs
 Plugin 'moll/vim-node'
 
@@ -328,6 +375,7 @@ let g:JavaImpDataDir = $HOME . "/.vim/JavaImp"
 
 Plugin 'rizzatti/dash.vim'
 Plugin 'matchit.zip'
+" 注释插件
 Plugin 'scrooloose/nerdcommenter'
 
 Plugin 'tpope/vim-fugitive'
@@ -335,7 +383,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'java_getset.vim'
 
 " Track the engine.
-Plugin 'SirVer/ultisnips'
+"Plugin 'SirVer/ultisnips'
 " Snippets are separated from the engine. Add this if you want them:
 Plugin 'honza/vim-snippets'
 " let g:UltiSnipsUsePythonVersion = 3
@@ -348,7 +396,7 @@ Plugin 'BufOnly.vim'
 
 " 令 GVim 专属的配色方案应用于 Vim 终端
 Plugin 'CSApprox'
-set t_Co=256
+
 
 " 参数折叠
 Plugin 'FooSoft/vim-argwrap'
@@ -374,6 +422,10 @@ function! s:align()
     endif
 endfunction
 
+Plugin 'aserebryakov/vim-todo-lists'
+
+Plugin 'davidhalter/jedi-vim'
+let g:jedi#force_py_version=2
 
 call vundle#end()
 " 根据侦测到的不同类型加载对应的插件
@@ -383,6 +435,10 @@ filetype plugin on
 set background=dark
 colorscheme molokai
 
+" }}}
+
+
+" Funcations Settings -------------- {{{
 
 " functions
 function! NumberToggle()
@@ -394,3 +450,4 @@ function! NumberToggle()
 endfunc
 nnoremap <C-n> :call NumberToggle()<cr>
 
+" }}}
