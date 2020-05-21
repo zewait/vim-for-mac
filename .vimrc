@@ -2,6 +2,7 @@
 " Mouse and backspace
 set mouse=a " on OSX press ALT and click
 
+
 " 缩紧不整齐时候，输入>>可以纠正，
 " 而不是在原来基础上再缩紧 
 set shiftround
@@ -103,7 +104,7 @@ set wildmenu
 " =    快捷键区    =
 " ==================
 " 定义快捷键的前缀，既<Leader>
-let mapleader=" "
+let mapleader=";"
 let maplocalleader=","
 " map sort function to a key
 vnoremap <Leader>s :sort<CR>
@@ -112,7 +113,7 @@ nnoremap <Leader>ev :split $MYVIMRC<cr>
 " reload ~/.vimrc
 nnoremap <Leader>sv :source $MYVIMRC<cr>
 " abbreviations email
-iabbrev @@ here.wait.go@gmail.com
+" iabbrev @@ here.wait.go@gmail.com
 " word -> \"word\"
 nnoremap <Leader>" viw<esc>a"<esc>hbi"<esc>lel
 " word -> 'word'
@@ -152,6 +153,14 @@ nnoremap <Leader>hw <C-W>h
 nnoremap <Leader>jw <C-W>j
 " 跳转至下方窗口
 nnoremap <Leader>kw <C-W>k
+" 在下方新建窗口
+nnoremap <Leader>wj :execute "rightbelow split " . bufname("")<CR>
+" 在上方新建窗口
+nnoremap <Leader>wk :execute "leftabove split " . bufname("")<CR>
+" 在左方新建窗口
+nnoremap <Leader>wh :execute "leftabove vsplit " . bufname("")<CR>
+" 在右方新建窗口
+nnoremap <Leader>wl :execute "rightbelow vsplit " . bufname("")<CR>
 " 定义快捷键在结对符之间跳转，助记pair
 " nmap <Leader>pa %
 " 正向遍历同名标签
@@ -168,6 +177,8 @@ vnoremap > >gv " better indentatition
 onoremap p i(
 onoremap in( :<c-u>normal! f(vi(<cr>
 onoremap il( :<c-u>normal! F)vi(<cr>
+
+
 " }}}
 
 " FileType-specific settings ----------- {{{
@@ -183,6 +194,9 @@ augroup init
     autocmd Filetype java set tags=$JAVA_HOME/tags,./tags,tags;
     " c,cpp配置
     autocmd FileType c,cpp map <buffer> <leader><space> :w<cr>:make<cr>
+    " 文件名补全-当前文件目录
+    autocmd InsertEnter * let save_cwd = getcwd() | set autochdir
+    autocmd InsertLeave * set noautochdir | execute 'cd' fnameescape(save_cwd)
 augroup END
 
 " Vimscript file settings ----------------- {{{
@@ -203,6 +217,7 @@ set nocompatible
 filetype off
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=~/Library/Python/2.7/lib/python/site-packages/powerline/bindings/vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
@@ -388,6 +403,8 @@ Plugin 'java_getset.vim'
 Plugin 'honza/vim-snippets'
 " let g:UltiSnipsUsePythonVersion = 3
 
+" assuming you want to use snipmate snippet engine
+
 
 Plugin 'BufOnly.vim'
 
@@ -426,6 +443,12 @@ Plugin 'aserebryakov/vim-todo-lists'
 
 Plugin 'davidhalter/jedi-vim'
 let g:jedi#force_py_version=2
+
+Plugin 'yuratomo/w3m.vim'
+
+Plugin 'file:///~/.vim/bundle/potion'
+
+Plugin 'ycm-core/YouCompleteMe'
 
 call vundle#end()
 " 根据侦测到的不同类型加载对应的插件
